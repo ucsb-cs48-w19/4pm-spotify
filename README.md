@@ -47,6 +47,9 @@ Sign in to Spotify. Then create hosted queue, share your collaboration code with
 
 ## Known Problems
 
+Make sure to use your local node_modules folder. To refresh the folder copy the rn-spotify folder within node_modules, then delete node_modules and run 'npm install' within the folder. Then drop rn-spotify folder back inside.
+
+
 TODO: Describe any known issues, bugs, odd behaviors or code smells. 
 Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
 
