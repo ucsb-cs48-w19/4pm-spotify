@@ -1,7 +1,5 @@
 # 4pm-blue-spotify
 
-Provide a README file with the following information:
-
 # Spartify
 
 ## Project summary
