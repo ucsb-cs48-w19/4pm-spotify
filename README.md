@@ -10,7 +10,7 @@ A Shared Spotify Queue for Music Collaboration
 
 ### Additional information about the project
 
-A user can host a shared music queue and allow individuals to contribute music to it.
+Tired of listeing to some frat bro play Mo Bamba at parties and ignoring your requests? Want to listen to some of your music? Well now you can! With the Spartify app, everyone is on aux. Add songs to a party queue and listen to what you want to hear.
 
 
 ## Installation
