@@ -79,6 +79,10 @@ Make sure to use your local node_modules folder. To refresh the folder copy the 
 
 Ensure your frameworks path is local to your computer.
 
+Launch error:
+
+https://stackoverflow.com/questions/44219152/react-native-launchpackager-command-cant-be-opened
+
 TODO: Describe any known issues, bugs, odd behaviors or code smells. 
 Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
 
