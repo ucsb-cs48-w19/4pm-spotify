@@ -51,7 +51,7 @@ https://facebook.github.io/react-native/docs/navigation
 
 INSTALL SPOTIFY MODULE:
 
-To add the Spotify SDK to your project, cd into your project directory and run the following commands:
+To add the Spotify SDK from `https://github.com/lufinkey/react-native-spotify` to your project, cd into your project directory and run the following commands:
 
 `npm install --save rn-spotify-sdk`
 
