@@ -63,6 +63,10 @@ MANUALLY ADD SPOTIFY FRAMEWORKS for iOS within Xcode (if they do not already exi
 
 Manually add the frameworks from node_modules/rn-spotify-sdk/ios/external/SpotifySDK to Linked Frameworks and Libraries in your project settings. Then add ../node_modules/rn-spotify-sdk/ios/external/SpotifySDK to Framework Search Paths in your project settings.
 
+ADJUST SEARCH PATH for frameworks:
+
+Inside Xcode click on your project, go to Build Settings, and search for Framework Search Path. Adsjut the field with the path to `node_modules/rn-spotify-sdk/ios/external/SpotifySDK` within you project in your file system.
+
 LAUNCH PROJECT with the following steps:
 
 cd into project folder
