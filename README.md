@@ -17,9 +17,11 @@ Tired of listeing to some frat bro play Mo Bamba at parties and ignoring your re
 
 ### Prerequisites
 
-Node.js
-React-Native
+Node.js,
+React-Native,
 Expo
+Spotify Premium Account
+iOS Device
 
 ### Gems
 
@@ -49,43 +51,28 @@ INSTALL navigation tool for multi-page:
 
 https://facebook.github.io/react-native/docs/navigation
 
-INSTALL SPOTIFY MODULE:
+## How to Use MVP
 
-To add the Spotify SDK from `https://github.com/lufinkey/react-native-spotify` to your project, cd into your project directory and run the following commands:
-
-`npm install --save rn-spotify-sdk`
-
-`react-native link react-native-events`
-
-`react-native link rn-spotify-sdk`
-
-MANUALLY ADD SPOTIFY FRAMEWORKS for iOS within Xcode (if they do not already exist):
-
-Manually add the frameworks from node_modules/rn-spotify-sdk/ios/external/SpotifySDK to Linked Frameworks and Libraries in your project settings. Then add ../node_modules/rn-spotify-sdk/ios/external/SpotifySDK to Framework Search Paths in your project settings.
-
-ADJUST SEARCH PATH for frameworks:
-
-Inside Xcode click on your project, go to Build Settings, and search for Framework Search Path. Adsjut the field with the path to `node_modules/rn-spotify-sdk/ios/external/SpotifySDK` within you project in your file system.
-
-LAUNCH PROJECT with the following steps:
-
-cd into project folder
-
-Run `npm start` and launch through expo or iOS similator
+1) Follow the installation steps above
+2) Download the Expo Client app on your smartphone if you don't have an ios simulator on your device
+3) Clone this repo to your device
+4) cd into the cloned repo on your device
+5) Create a Spotify Developer Account (You must have a spotify premium account for this to work)
+6) Copy your new client id from the your developer account and paste it into the "CLIENT_ID" variable in screens/Homescreen.js and screens/Linkscreen.js
+7)In your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue into the "Redirect URIs" section.
+8) cd to Spartify-Queue
+9) Open the spotify app
+10) Run "expo start" and scan the QR code when it comes up to build and launch the app on your smartphone or run it on an iOS simulator if you have one
+11) On the homepage, follow the steps to sign in to your spotify account
+12) Using the navbar on the bottom of the screen, go to the linkscreen page where you will see a list of song URIs.
+13) Tap any of the song URIs in this list and treat your ears to Rick Astley's classic "Never Gonna Give You Up"
+14) If it says your device isn't active, try going back to your spotify app and playing a song and then pausing it to activate it and then tap a URI again and it shoudl start playing.
 
 ## Functionality
 
-Sign in to Spotify. Then create hosted queue, share your collaboration code with others, and manage music contributions.
+Sign in to Spotify. Then create hosted queue, share your collaboration code with others, and manage music contributions. 
 
 ## Known Problems
-
-Make sure to use your local node_modules folder. To refresh the folder copy the rn-spotify folder within node_modules, then delete node_modules and run 'npm install' within the folder. Then drop rn-spotify folder back inside if it has been removed.
-
-Ensure your frameworks path is local to your computer.
-
-Launch error:
-
-https://stackoverflow.com/questions/44219152/react-native-launchpackager-command-cant-be-opened
 
 TODO: Describe any known issues, bugs, odd behaviors or code smells. 
 Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
