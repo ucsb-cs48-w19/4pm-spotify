@@ -59,8 +59,7 @@ https://facebook.github.io/react-native/docs/navigation
 4) cd into the cloned repo on your device
 5) Create a Spotify Developer Account (You must have a spotify premium account for this to work)
 6) Copy your new client id from the your developer account and paste it into the "CLIENT_ID" variable in 
-   screens/Homescreen.js and screens/Linkscreen.js
-7)In your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue 
+   screens/Homescreen.js and screens/Linkscreen.js.  Then, in your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue, substituting your expo username for [your expo username]
    into the "Redirect URIs" section.
 8) cd to Spartify-Queue
 9) Open the spotify app
