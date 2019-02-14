@@ -62,7 +62,7 @@ https://facebook.github.io/react-native/docs/navigation
    screens/Homescreen.js and screens/Linkscreen.js.  Then, in your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue, substituting your expo username for [your expo username]
    into the "Redirect URIs" section.
 8) cd to Spartify-Queue
-9) Open the spotify app
+9) Open the spotify app with your premium account logged in on your device 
 10) Run "expo start" and scan the QR code when it comes up to build and launch the app on your smartphone or run it on an iOS simulator if you have one
 11) On the homepage, follow the steps to sign in to your spotify account
 12) Using the navbar on the bottom of the screen, go to the linkscreen page where you will see a list of song URIs.
