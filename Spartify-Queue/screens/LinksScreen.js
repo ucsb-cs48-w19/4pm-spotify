@@ -61,7 +61,7 @@ export default class HomeScreen extends React.Component {
           body: JSON.stringify({
             "device_ids": [ device_id ],
             "play": true,
-            "uris": ["spotify:track:7lEptt4wbM0yJTvSG5EBof"]
+            "uris": ["spotify:track:7GhIk7Il098yCjg4BQjzvb"]
           }),
          })
           // .then (function (response) {console.log( response.json() ); return response.json()})
