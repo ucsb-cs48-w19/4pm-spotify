@@ -58,15 +58,18 @@ https://facebook.github.io/react-native/docs/navigation
 3) Clone this repo to your device
 4) cd into the cloned repo on your device
 5) Create a Spotify Developer Account (You must have a spotify premium account for this to work)
-6) Copy your new client id from the your developer account and paste it into the "CLIENT_ID" variable in screens/Homescreen.js and screens/Linkscreen.js
-7)In your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue into the "Redirect URIs" section.
+6) Copy your new client id from the your developer account and paste it into the "CLIENT_ID" variable in 
+   screens/Homescreen.js and screens/Linkscreen.js
+7)In your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue 
+   into the "Redirect URIs" section.
 8) cd to Spartify-Queue
 9) Open the spotify app
 10) Run "expo start" and scan the QR code when it comes up to build and launch the app on your smartphone or run it on an iOS simulator if you have one
 11) On the homepage, follow the steps to sign in to your spotify account
 12) Using the navbar on the bottom of the screen, go to the linkscreen page where you will see a list of song URIs.
 13) Tap any of the song URIs in this list and treat your ears to Rick Astley's classic "Never Gonna Give You Up"
-14) If it says your device isn't active, try going back to your spotify app and playing a song and then pausing it to activate it and then tap a URI again and it shoudl start playing.
+14) If it says your device isn't active, try going back to your spotify app and playing a song and then pausing it to activate it and
+    then tap a URI again and it shoudl start playing.
 
 ## Functionality
 
