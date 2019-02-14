@@ -68,7 +68,7 @@ https://facebook.github.io/react-native/docs/navigation
 12) Using the navbar on the bottom of the screen, go to the linkscreen page where you will see a list of song URIs.
 13) Tap any of the song URIs in this list and treat your ears to Rick Astley's classic "Never Gonna Give You Up"
 14) If it says your device isn't active, try going back to your spotify app and playing a song and then pausing it to activate it and
-    then tap a URI again and it shoudl start playing.
+    then tap a URI again and it should start playing.
 
 ## Functionality
 
