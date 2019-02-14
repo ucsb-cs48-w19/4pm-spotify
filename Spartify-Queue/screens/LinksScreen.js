@@ -13,78 +13,80 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-  handleSpotifyLogin = async () => {
-    let redirectUrl = AuthSession.getRedirectUrl();
-    let results = await AuthSession.startAsync({
-      authUrl: `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=user-read-email&response_type=token`
-    });
-    // if (results.type !== 'success') {
-    //   console.log(results.type);
-    //   this.setState({ didError: true });
-    // } else {
-    //   const userInfo = await axios.get(`https://api.spotify.com/v1/me`, {
-    //     headers: {
-    //       "Authorization": `Bearer ${results.params.access_token}`
-    //     }
-    //   });
-    //   this.setState({ userInfo: userInfo.data });
-    // }
-  };
+  state = {
+    devices: []
+  }
 
-  playSong = async () => {
+  getDevice = async () => {
+    try {
+      const value = await AsyncStorage.getItem('Authorization');
+      if (value !== null) {
+        // fetch("https://api.spotify.com/v1/me/player/devices", {
+        //   method: 'GET',
+        //   headers: { authorization: value, },
+        //  }) .then(function (json) { })
+        await axios.get(`https://api.spotify.com/v1/me/player/devices`, { headers: { authorization: value } })
+        .then(response => {
+          this.setState({ devices: response.data.devices });
+          console.log(response.data.devices[0].id);
+          if (this.state.devices[0])
+            this.playSong(this.state.devices[0]);
+          else
+            this.playSong("");
+        })
+
+      }
+    } catch (error) {
+      console.log("Error retrieving data: ", error);
+      // Error retrieving data
+    };
+  }
+
+  playSong = async (device_id) => {
     try {
       const value = await AsyncStorage.getItem('Authorization');
       if (value !== null) {
         // We have data:
         console.log("DATA: ", value);
-        // fetch("https://api.spotify.com/v1/me/player/play?")
-        //   .then((response) => response.json())
-        //   .then((responseData) => {
-        //     return fetch(api.searchservice + responseData)
-        //       .then((response) => response.json())
-        //       .then((responseData) => {
-        //         console.log("dddd: ", responseData);
-        //       })
-        //   })
-        //   .catch(function (err) {
-        //     return err;
-        //   });
 
-        fetch("https://api.spotify.com/v1/me/player/play?", {
+        fetch("https://api.spotify.com/v1/me/player/play", {
           method: 'PUT',
-          data: '{"uris": ["spotify:track:7lEptt4wbM0yJTvSG5EBof"]}',
+          // data: {
+          //   uris: ["spotify:track:7lEptt4wbM0yJTvSG5EBof"]
+          // },
           headers: {
             authorization: value,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            // "device_ids": [  ],
-            // "play": true,
+            "device_ids": [ device_id ],
+            "play": true,
             "uris": ["spotify:track:7lEptt4wbM0yJTvSG5EBof"]
           }),
          })
           // .then (function (response) {console.log( response.json() ); return response.json()})
-          // .then(function (json) {console.log(json)/* Here is your json */})
+          .then(function (json) {console.log(json)/* Here is your json */})
           // .catch(function (error) {console.log(error)/*Handle error*/});
-          .then((response) => response.json())
-          .then((responseData) => {
-            return fetch(/*api.searchservice + */responseData)
-              .then((response) => response.json())
-              .then((responseData) => {
-                console.log(responseData);
-              })
-          })
-          .catch(function (error) {
-            console.log(error);
-            return error;
-          });
+
+          // .then((response) => response.json())
+          // .then((responseData) => {
+          //   return fetch(/*api.searchservice + */responseData)
+          //     .then((response) => response.json())
+          //     .then((responseData) => {
+          //       console.log(responseData);
+          //     })
+          // })
+          // .catch(function (error) {
+          //   console.log(error);
+          //   return error;
+          // });
+
         console.log(value);
       }
     } catch (error) {
         console.log("Error retrieving data: ", error);
       // Error retrieving data
     };
-    console.log("NO DATA...");
 
     // $.ajax({
     //    url: "https://api.spotify.com/v1/me/player/play?", //device_id=" + device_id,
@@ -95,10 +97,6 @@ export default class HomeScreen extends React.Component {
     //      console.log(data)
     //    }
     // });
-  }
-
-  loginSpotify() {
-
   }
 
   render() {
@@ -119,7 +117,7 @@ export default class HomeScreen extends React.Component {
           // renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
           renderItem={({item}) => {
               return(
-                <TouchableHighlight onPress={() => this.playSong()}>
+                <TouchableHighlight onPress={() => this.getDevice()}>
                      <Text >{item.key}</Text>
                 </TouchableHighlight>
               )

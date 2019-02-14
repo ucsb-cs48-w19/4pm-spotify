@@ -14,8 +14,9 @@ export default class App extends Component {
 
   handleSpotifyLogin = async () => {
     let redirectUrl = AuthSession.getRedirectUrl();
+    var scope = 'playlist-read-private user-modify-playback-state user-read-recently-played user-read-currently-playing app-remote-control user-read-playback-state streaming user-library-read user-read-email';
     let results = await AuthSession.startAsync({
-      authUrl: `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=user-read-email&response_type=token`
+      authUrl: `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=${encodeURIComponent(scope)}&response_type=token`
     });
     if (results.type !== 'success') {
       console.log(results.type);
@@ -45,13 +46,14 @@ export default class App extends Component {
     );
   }
 
+        // <Image
+        //   style={styles.profileImage}
+        //   source={ {'uri': this.state.userInfo.images[0].url} }
+        // />
+
   displayResults = () => {
     { return this.state.userInfo ? (
       <View style={styles.userInfo}>
-        <Image
-          style={styles.profileImage}
-          source={ {'uri': this.state.userInfo.images[0].url} }
-        />
         <View>
           <Text style={styles.userInfoText}>
             Username:
