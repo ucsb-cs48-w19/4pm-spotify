@@ -31,32 +31,16 @@ None
 
 Run the following commands to install expo and react:
 
-`npm install -g expo-cli`
+npm install
 
-`npm install -g react-native`
-
-`npm install -g react-native-cli`
-
-new instructions:
-
-INSTALL nav bar tool:
-
-`npm install react-native-navbar --save`
-
-https://github.com/react-native-community/react-native-navbar#examples
-
-INSTALL navigation tool for multi-page:
-
-`npm install --save react-navigation`
-
-https://facebook.github.io/react-native/docs/navigation
+npm install --save expo-cli
 
 ## How to Use MVP
 
-1) Follow the installation steps above
-2) Download the Expo Client app on your smartphone if you don't have an ios simulator on your device
-3) Clone this repo to your device
-4) cd into the cloned repo on your device
+1) Download the Expo Client app on your smartphone if you don't have an ios simulator on your device
+2) Clone this repo to your device
+3) cd into the cloned repo on your device then cd into Spartify-Queue
+4) Follow the installation steps above
 5) Create a Spotify Developer Account (You must have a spotify premium account for this to work)
 6) Copy your new client id from the your developer account and paste it into the "CLIENT_ID" variable in 
    screens/Homescreen.js and screens/Linkscreen.js.  Then, in your spotify developer account, go to settings and copy/paste https://auth.expo.io/[your expo username]/Spartify-Queue, substituting your expo username for [your expo username]
