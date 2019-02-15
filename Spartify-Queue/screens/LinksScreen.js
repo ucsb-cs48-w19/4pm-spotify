@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';  // 'npm install axios --save'
 import { MonoText } from '../components/StyledText';
 
-const CLIENT_ID = '09b7b0f745014fb0950ee5bf040fbe3a';
+const CLIENT_ID = '1b256be8537d49249f3785fd1c05012c';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -17,7 +17,7 @@ export default class HomeScreen extends React.Component {
     devices: []
   }
 
-  getDevice = async () => {
+  getDevice = async (uri) => {
     try {
       const value = await AsyncStorage.getItem('Authorization');
       if (value !== null) {
@@ -28,11 +28,13 @@ export default class HomeScreen extends React.Component {
         await axios.get(`https://api.spotify.com/v1/me/player/devices`, { headers: { authorization: value } })
         .then(response => {
           this.setState({ devices: response.data.devices });
-          console.log(response.data.devices[0].id);
-          if (this.state.devices[0])
-            this.playSong(this.state.devices[0]);
+          console.log(response.data.devices);
+          if (this.state.devices[0]) {
+            console.log(this.state.devices[0].id);
+            this.playSong(this.state.devices[0].id, uri);
+          }
           else
-            this.playSong("");
+            this.playSong("", uri);
         })
 
       }
@@ -42,7 +44,7 @@ export default class HomeScreen extends React.Component {
     };
   }
 
-  playSong = async (device_id) => {
+  playSong = async (device_id, uri) => {
     try {
       const value = await AsyncStorage.getItem('Authorization');
       if (value !== null) {
@@ -61,7 +63,7 @@ export default class HomeScreen extends React.Component {
           body: JSON.stringify({
             "device_ids": [ device_id ],
             "play": true,
-            "uris": ["spotify:track:7GhIk7Il098yCjg4BQjzvb"]
+            "uris": [uri]
           }),
          })
           // .then (function (response) {console.log( response.json() ); return response.json()})
@@ -80,8 +82,6 @@ export default class HomeScreen extends React.Component {
           //   console.log(error);
           //   return error;
           // });
-
-        console.log(value);
       }
     } catch (error) {
         console.log("Error retrieving data: ", error);
@@ -102,23 +102,20 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <ScrollView>
-      <View>
+      <View style={styles.container}>
         <FlatList
           data={[
-            {key: 'spotify:track:7lEptt4wbM0yJTvSG5EBof'},
-            {key: 'spotify:track:11dFghVXANMlKmJXsNCbNl'},
-            {key: 'URI #3'},
-            {key: 'Song4'},
-            {key: 'Song5'},
-            {key: 'Song6'},
-            {key: 'Song7'},
-            {key: 'Song8'},
+            {name: 'ZEZE', key: 'spotify:track:7l3E7lcozEodtVsSTCkcaA'},
+            {name: 'Love it', key: 'spotify:track:4S8d14HvHb70ImctNgVzQQ'},
+            {name: 'Digits', key: 'spotify:track:4cg1yakyRSIOjxKM2I7J1q'},
+            {name: 'FML', key: 'spotify:track:34kRg5EbCB3r20QXZbnGeY'},
+            {name: 'Champions', key: 'spotify:track:7ccI9cStQbQdystvc6TvxD'},
           ]}
           // renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
           renderItem={({item}) => {
               return(
-                <TouchableHighlight onPress={() => this.getDevice()}>
-                     <Text >{item.key}</Text>
+                <TouchableHighlight onPress={() => this.getDevice(item.key)}>
+                     <Text style={styles.item}>{item.name}</Text>
                 </TouchableHighlight>
               )
             }
@@ -156,6 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     /*justifyContent: 'center',
     alignItems: 'center',*/
+    fontSize: 20,
     backgroundColor: '#FFFFFF',
     paddingTop: 50,
   },
