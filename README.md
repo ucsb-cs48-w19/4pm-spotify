@@ -1,5 +1,3 @@
-# 4pm-blue-spotify
-
 # Spartify
 
 ## Project summary
