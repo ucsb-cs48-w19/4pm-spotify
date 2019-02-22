@@ -48,7 +48,7 @@ npm install --save expo-cli
 10) Run "expo start" and scan the QR code when it comes up to build and launch the app on your smartphone or run it on an iOS simulator if you have one
 11) On the homepage, follow the steps to sign in to your spotify account
 12) Using the navbar on the bottom of the screen, go to the linkscreen page where you will see a list of song URIs.
-13) Tap any of the song URIs in this list and treat your ears to Rick Astley's classic "Never Gonna Give You Up"
+13) Tap any of the song URIs in this list and treat your ears to this lovely, diverse playlist of songs
 14) If it says your device isn't active, try going back to your spotify app and playing a song and then pausing it to activate it and
     then tap a URI again and it should start playing.
 
