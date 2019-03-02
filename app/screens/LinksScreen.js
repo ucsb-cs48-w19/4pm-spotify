@@ -65,7 +65,7 @@ export default class HomeScreen extends React.Component {
     try {
       const value = await AsyncStorage.getItem('Authorization');
       if (value !== null) {
-        var q = 'abba'; var type = 'track'; var market = 'US'; // "type": 'album,track,artist,playlist'
+        var q = ' '; var type = 'track'; var market = 'US'; // "type": 'album,track,artist,playlist'
         await axios.get(`https://api.spotify.com/v1/search?q=`+q+`&type=`+type+`&market=`+market,
           {
             headers: {
@@ -156,7 +156,7 @@ export default class HomeScreen extends React.Component {
     this.setState({ queueSongs: songs });
   }
 
-  // OUR OLD PLAY CALL, this call should be used if you are host of playlist, not otherwise:
+//  OUR OLD PLAY CALL, this call should be used if you are host of playlist, not otherwise:
   // renderItem={({item}) => {
   //     return(
   //       <TouchableHighlight onPress={() => this.getDevice(item.key)}>
@@ -191,7 +191,7 @@ export default class HomeScreen extends React.Component {
           <FlatList
             data={this.state.showSearch ? this.state.searchData : this.state.queueSongs}
             extraData={this.state.showSearch ? this.state.searchData : this.state.queueSongs}
-            keyExtractor={ (item, index) => index }
+            keyExtractor={ (item, index) => index.toString() }
             renderItem={({item, index}) => {
               return(
                 <TouchableHighlight onPress={() => this.state.showSearch ? this.sendSongToQueue(item) : null}>
