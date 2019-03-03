@@ -4,7 +4,7 @@ import { AuthSession } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 
-const CLIENT_ID = '95d5f058d69c4788b6405c7ee452a70b';
+const CLIENT_ID = '09b7b0f745014fb0950ee5bf040fbe3a';
 
 export default class App extends Component {
   static navigationOptions = {
@@ -55,16 +55,10 @@ export default class App extends Component {
       <View style={styles.userInfo}>
         <View>
           <Text style={styles.userInfoText}>
-            Username:
+            Username: {this.state.userInfo.id}
           </Text>
-          <Text style={styles.userInfoText}>
-            {this.state.userInfo.id}
-          </Text>
-          <Text style={styles.userInfoText}>
-            Email:
-          </Text>
-          <Text style={styles.userInfoText}>
-            {this.state.userInfo.email}
+          <Text style={styles.userInfoText} >
+            Email: {this.state.userInfo.email}
           </Text>
         </View>
       </View>
@@ -82,6 +76,7 @@ export default class App extends Component {
           size={128}
         />
         <TouchableOpacity
+          hide={this.state.userInfo ? true : false}
           style={styles.button}
           onPress={this.handleSpotifyLogin}
           disabled={this.state.userInfo ? true : false}
@@ -90,6 +85,13 @@ export default class App extends Component {
             Login with Spotify
           </Text>
         </TouchableOpacity>
+
+        {
+          this.state.didError ?
+          this.displayError() :
+          this.displayResults()
+        }
+
       </View>
     );
   }
@@ -103,6 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
+    textAlign: 'center',
   },
   button: {
     backgroundColor: '#2FD566',
@@ -126,10 +129,13 @@ const styles = StyleSheet.create({
     height: 250,
     width: 200,
     alignItems: 'center',
+    textAlign: 'center',
   },
   userInfoText: {
-    color: '#fff',
-    fontSize: 18
+    color: '#bcbcbc',
+    fontSize: 18,
+    width: '100%',
+    padding: 10
   },
   errorText: {
     color: '#fff',
