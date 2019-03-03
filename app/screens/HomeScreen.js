@@ -4,9 +4,13 @@ import { AuthSession } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 
-const CLIENT_ID = '1b256be8537d49249f3785fd1c05012c';
+const CLIENT_ID = '95d5f058d69c4788b6405c7ee452a70b';
 
 export default class App extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  };
+
   state = {
     userInfo: null,
     didError: false
@@ -46,11 +50,6 @@ export default class App extends Component {
     );
   }
 
-        // <Image
-        //   style={styles.profileImage}
-        //   source={ {'uri': this.state.userInfo.images[0].url} }
-        // />
-
   displayResults = () => {
     { return this.state.userInfo ? (
       <View style={styles.userInfo}>
@@ -70,11 +69,7 @@ export default class App extends Component {
         </View>
       </View>
     ) : (
-      <View style={styles.userInfo}>
-        <Text style={styles.userInfoText}>
-          Login to Spotify to see user data.
-        </Text>
-      </View>
+      <View style={styles.userInfo}></View>
     )}
   }
 
@@ -95,10 +90,6 @@ export default class App extends Component {
             Login with Spotify
           </Text>
         </TouchableOpacity>
-        {this.state.didError ?
-          this.displayError() :
-          this.displayResults()
-        }
       </View>
     );
   }
@@ -106,19 +97,30 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 50,
     flexDirection: 'column',
-    backgroundColor: '#000',
+    backgroundColor: '#FFFFFF',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
   button: {
     backgroundColor: '#2FD566',
-    padding: 20
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
+    paddingTop:20,
+    paddingBottom:20,
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
   },
   buttonText: {
-    color: '#000',
-    fontSize: 20
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginLeft: 20,
+    marginRight: 20
   },
   userInfo: {
     height: 250,

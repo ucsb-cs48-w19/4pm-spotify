@@ -3,11 +3,8 @@ import { Image, Button, Platform, ScrollView, StyleSheet, Text, TextInput, Touch
 import { WebBrowser, AuthSession } from 'expo';
 // import { WebBrowser, AuthSession } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
-import axios from 'axios';  // 'npm install axios --save'
+import axios from 'axios';
 import { MonoText } from '../components/StyledText';
-// https://stackoverflow.com/questions/52055391/onsubmitediting-never-fires
-
-// const CLIENT_ID = '09b7b0f745014fb0950ee5bf040fbe3a';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -38,10 +35,6 @@ export default class HomeScreen extends React.Component {
     try {
       const value = await AsyncStorage.getItem('Authorization');
       if (value !== null) {
-        // fetch("https://api.spotify.com/v1/me/player/devices", {
-        //   method: 'GET',
-        //   headers: { authorization: value, },
-        //  }) .then(function (json) { })
         await axios.get(`https://api.spotify.com/v1/me/player/devices`, { headers: { authorization: value } })
         .then(response => {
           this.setState({ devices: response.data.devices });
@@ -57,7 +50,6 @@ export default class HomeScreen extends React.Component {
       }
     } catch (error) {
       console.log("Error retrieving data: ", error);
-      // Error retrieving data
     };
   }
 
