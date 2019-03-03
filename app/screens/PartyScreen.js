@@ -14,21 +14,20 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export default class PartyScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  
   static navigationOptions = {
     title: 'Party',
   };
 
-  state {
-    partycode = null;
-    partyname = null;
-  };
-
   createParty = () => {
     var rootref = firebaseApp.database().ref();
-    let randcode = Math.random().toString(36).substring(7);
-    this.state.partycode = randcode;
-    this.partiesRef = this.getRef().child('parties');
-    this.partiesRef.push({ this.state.partycode: this.state.partyname });
+    let partycode = Math.random().toString(36).substring(7);
+    let partyname = "default";
+    this.partiesRef = rootref.getRef().child('parties');
+    this.partiesRef.push({randcode: partyname});
   };
 
   render() {
@@ -36,7 +35,7 @@ export default class PartyScreen extends React.Component {
       <ScrollView>
         <TouchableOpacity
           style={styles.button}
-          onPress={this.createParty}
+          onPress={this.createParty.bind(this)}
         >
           <Text style={styles.buttonText}>
             Create a Party

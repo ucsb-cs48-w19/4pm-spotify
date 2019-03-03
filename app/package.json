@@ -14,7 +14,7 @@
     "@expo/samples": "2.1.1",
     "axios": "^0.18.0",
     "expo": "^32.0.0",
-    "expo-cli": "^2.11.3",
+    "expo-cli": "^2.11.6",
     "firebase": "^5.8.4",
     "jest-haste-map": "^24.0.0",
     "jest-serializer": "^24.0.0",
