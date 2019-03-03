@@ -17,7 +17,7 @@ export default class PartyScreen extends React.Component {
   constructor(props) {
     super(props);
   }
-  
+
   static navigationOptions = {
     title: 'Party',
   };
@@ -27,7 +27,7 @@ export default class PartyScreen extends React.Component {
     let partycode = Math.random().toString(36).substring(7);
     let partyname = "default";
     this.partiesRef = rootref.getRef().child('parties');
-    this.partiesRef.push({randcode: partyname});
+    this.partiesRef.push({code: partycode, name: partyname});
   };
 
   render() {
