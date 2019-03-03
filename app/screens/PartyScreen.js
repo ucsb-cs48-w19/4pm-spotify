@@ -1,7 +1,17 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image, AsyncStorage, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import * as firebase from 'firebase'
+const firebase = require('firebase');
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD-yRFqNXFkeIpfK_mhzZ-sxVwjzsRAnOE",
+    authDomain: "spotify-party-queue.firebaseapp.com",
+    databaseURL: "https://spotify-party-queue.firebaseio.com",
+    projectId: "spotify-party-queue",
+    storageBucket: "spotify-party-queue.appspot.com",
+    messagingSenderId: "517089269705"
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 export default class PartyScreen extends React.Component {
   static navigationOptions = {
@@ -9,39 +19,17 @@ export default class PartyScreen extends React.Component {
   };
 
   state {
-    partycode = null
+    partycode = null;
+    partyname = null;
   };
 
-  createParty = async () => {
-    var firebase = require('firebase');
-    var config = {
-      apiKey: "AIzaSyD-yRFqNXFkeIpfK_mhzZ-sxVwjzsRAnOE",
-      authDomain: "spotify-party-queue.firebaseapp.com",
-      databaseURL: "https://spotify-party-queue.firebaseio.com",
-      storageBucket: "spotify-party-queue.appspot.com"
-    };
-    firebase.initializeApp({config});
-    var database = firebase.database();
+  createParty = () => {
+    var rootref = firebaseApp.database().ref();
     let randcode = Math.random().toString(36).substring(7);
-    randcode = partcode;
-    database.ref('parties/' + randcode).set({
-      partyname: "newparty"
-    });
+    this.state.partycode = randcode;
+    this.partiesRef = this.getRef().child('parties');
+    this.partiesRef.push({ this.state.partycode: this.state.partyname });
   };
-
-  joinParty = async () => {
-    var firebase = require('firebase');
-    var config = {
-      apiKey: "AIzaSyD-yRFqNXFkeIpfK_mhzZ-sxVwjzsRAnOE",
-      authDomain: "spotify-party-queue.firebaseapp.com",
-      databaseURL: "https://spotify-party-queue.firebaseio.com",
-      storageBucket: "spotify-party-queue.appspot.com"
-    };
-    firebase.initializeApp({config});
-    var database = firebase.database();
-    // Prompt to enter a code
-    // Save as partycode in state if it exists
-  }
 
   render() {
     return (
