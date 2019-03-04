@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Image, AsyncStorage, ScrollView, FlatList } from 'react-native';
+import React, {Component} from 'react';
+import { TouchableOpacity, StyleSheet, Text, View, Image, ActivityIndicator, AsyncStorage, RefreshControl, ScrollView, FlatList, Refresh } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 const firebase = require('firebase');
@@ -26,6 +26,7 @@ export default class PartyScreen extends React.Component {
   state = {
     isHost: false,
     isJoined: false,
+    refreshing: false,
 
     devices: [],
     // USING SAMPLE DATA, must pull from DB:
@@ -100,9 +101,20 @@ export default class PartyScreen extends React.Component {
 
   getPartySongs = async () => {
     console.log("retrieving songs...");
-    var songs = []; // GET SONGS HERE
-    this.setState({ queueSongs: songs });
+     var songs = []; // GET SONGS HERE
+    this.setState({ 
+      refreshing: false, 
+      queueSongs: songs 
+    });
   }
+
+  handleRefresh = () => {
+    this.setState({ 
+      queueSongs:[], 
+      refreshing: true 
+    });
+    this.getPartySongs();
+  };
 
   //  OUR OLD PLAY CALL, this call should be used if you are host of playlist, not otherwise:
   // renderItem={({item}) => {
@@ -115,6 +127,14 @@ export default class PartyScreen extends React.Component {
   // }
 
   render() {
+    // if (this.state.refreshing) {
+    //   return (
+    //     //loading view while data is loading
+    //     <View style={{ flex: 1, paddingTop: 20 }}>
+    //       <ActivityIndicator />
+    //     </View>
+    //   );
+    // }
     if (!this.state.isHost && !this.state.isJoined) {
       return (
         <ScrollView>
@@ -138,7 +158,7 @@ export default class PartyScreen extends React.Component {
       );
     } else {
       return (
-        <ScrollView>
+        <View style={{flex:1}}>
         <View style={styles.listcontainer}>
           <View style={{backgroundColor:"white"}}>
             <FlatList
@@ -154,10 +174,17 @@ export default class PartyScreen extends React.Component {
                 )
               }}
               renderSeparator={() => <View style={styles.separator} />}
+              refreshControl = {
+                <RefreshControl
+                  //refresh control used for the Pull to Refresh
+                  refreshing={this.state.refreshing}
+                  onScroll={this.handleRefresh}
+                />
+              }
             />
           </View>
         </View>
-        </ScrollView>
+        </View>
       );
     }
   }
