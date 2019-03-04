@@ -20,7 +20,7 @@ export default class PartyScreen extends React.Component {
   }
 
   static navigationOptions = {
-    title: 'Party',
+    title: 'Your Party',
   };
 
   state = {
