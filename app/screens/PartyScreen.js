@@ -128,14 +128,14 @@ export default class PartyScreen extends React.Component {
   // }
 
   render() {
-    // if (this.state.refreshing) {
-    //   return (
-    //     //loading view while data is loading
-    //     <View style={{ flex: 1, paddingTop: 20 }}>
-    //       <ActivityIndicator />
-    //     </View>
-    //   );
-    // }
+    if (this.state.refreshing) {
+      return (
+        //loading view while data is loading
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     if (!this.state.isHost && !this.state.isJoined) {
       return (
         <ScrollView>
