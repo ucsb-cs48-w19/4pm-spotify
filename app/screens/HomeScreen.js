@@ -4,7 +4,7 @@ import { AuthSession } from 'expo';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 
-const CLIENT_ID = '09b7b0f745014fb0950ee5bf040fbe3a';
+const CLIENT_ID = '70dbf916fc2e45b6a689db0214d520fa';
 
 export default class App extends Component {
   static navigationOptions = {
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   userInfoText: {
-    color: '#bcbcbc',
+    color: '#000000',
     fontSize: 18,
     width: '100%',
     padding: 10
