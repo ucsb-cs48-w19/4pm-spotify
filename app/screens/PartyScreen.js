@@ -3,16 +3,18 @@ import { TouchableOpacity, StyleSheet, Text, View, TextInput, Image, ActivityInd
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 const firebase = require('firebase');
-
+const pcode = Math.random().toString(36).substring(7);
+export{pcode};
 const firebaseConfig = {
-    apiKey: "AIzaSyD-yRFqNXFkeIpfK_mhzZ-sxVwjzsRAnOE",
-    authDomain: "spotify-party-queue.firebaseapp.com",
-    databaseURL: "https://spotify-party-queue.firebaseio.com",
-    projectId: "spotify-party-queue",
-    storageBucket: "spotify-party-queue.appspot.com",
-    messagingSenderId: "517089269705"
+    apiKey: "AIzaSyDEy5DxvDRX5vM6t1S_QfKLVFa74asLPq8",
+    authDomain: "spartify-queue.firebaseapp.com",
+    databaseURL: "https://spartify-queue.firebaseio.com",
+    projectId: "spartify-queue",
+    storageBucket: "spartify-queue.appspot.com",
+    messagingSenderId: "500027844157"
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
 export default class PartyScreen extends React.Component {
   constructor(props) {
@@ -69,17 +71,14 @@ export default class PartyScreen extends React.Component {
     isJoined: false,
     refreshing: false,
     nullInputCode: true,
+    partycode: 0,
 
     devices: [],
     // USING SAMPLE DATA, must pull from DB:
     // queueSongs: [],
     queueSongs: [
-              {name: 'ZEZE', artist: 'Travis', uri: 'spotify:track:7l3E7lcozEodtVsSTCkcaA'},
-              {name: 'Love it', artist: 'Kanye', uri: 'spotify:track:4S8d14HvHb70ImctNgVzQQ'},
-              {name: 'Digits', artist: 'Thug', uri: 'spotify:track:4cg1yakyRSIOjxKM2I7J1q'},
-              {name: 'FML', artist: 'Kanye', uri: 'spotify:track:34kRg5EbCB3r20QXZbnGeY'},
-              {name: 'Champions', artist: 'Queen', uri: 'spotify:track:7ccI9cStQbQdystvc6TvxD'}
-            ]
+              {name: 'Your songs here!', artist: ' ', uri: 'spotify:track:7l3E7lcozEodtVsSTCkcaA'},
+              ]
   };
 
   getDevice = async (uri) => {
@@ -128,13 +127,16 @@ export default class PartyScreen extends React.Component {
     };
   }
 
-  createParty = () => {
-    var rootref = firebaseApp.database().ref();
-    let partycode = Math.random().toString(36).substring(7);
-    let partyname = "default";
-    this.partiesRef = rootref.getRef().child('parties');
-    this.partiesRef.push({code: partycode, name: partyname});
-    // this.setState({ isHost: true });
+  createParty = async () => {
+    var pcode = Math.random().toString(36).substring(7);
+    await AsyncStorage.setItem('pcode', pcode);
+    this.setState({ partycode: pcode });
+    this.partiesRef = database.ref().child('parties').push().key;
+    var updates = {};
+    updates['/parties/' + pcode] = pcode;
+    database.ref().update(updates);
+
+    console.log("Party Created...");
     this.setState({ isHost: true }, () => { this._setPartyNavigationParams(); });
   };
 
@@ -142,19 +144,46 @@ export default class PartyScreen extends React.Component {
     if (this.state.nullInputCode) {
       return;
     }
-    AsyncStorage.getItem("partyCode").then((partyCode) => {
-      this.state.nullInputCode = true;
-      // console.log("partyCode: ", partyCode);
-    })
-    .then(res => {
-      this.setState({ isJoined: true });
-      this._setPartyNavigationParams();
-    });
+    const partyCode = await AsyncStorage.getItem("partyCode");
+    this.setState({ partycode: partyCode });
+    this.state.nullInputCode = true;
+
+    var join;
+    database.ref('/parties/' + partyCode).once('value', function(snapshot){
+        console.log("snapshot",snapshot.val()); 
+        if(snapshot.val() == null){
+          console.log("this sucks");
+          join = false;
+          // this.state.isJoined = false;
+        }
+        else{
+          join = true;
+        }
+        this.setState({ isJoined: join });
+        console.log(this.state.isJoined);
+    }.bind(this));
+    this._setPartyNavigationParams();
+    this.getPartySongs();
   };
 
   getPartySongs = async () => {
     console.log("retrieving songs...");
-     var songs = [{name: 'ZEZE', artist: 'Travis', uri: 'spotify:track:7l3E7lcozEodtVsSTCkcaA'}]; // GET SONGS HERE
+    var songs = []; // GET SONGS HERE
+    if(this.state.isJoined)
+      var pcode = await AsyncStorage.getItem("partyCode");
+    else if(this.state.isHost)
+      var pcode = await AsyncStorage.getItem("pcode");
+
+    database.ref('/parties/' + pcode).once('value', function(snapshot){
+      let data = snapshot.val();
+      if (data != null){
+        let items = Object.values(data);
+        for(let i =0; i<items.length; i++){
+          let item = Object.values(items[i]);
+          songs.push({"name": item[1], "artist": item[0], "uri": item[2]});
+        }
+      }
+    });
     this.setState({ 
       refreshing: false, 
       queueSongs: songs 
@@ -223,6 +252,13 @@ export default class PartyScreen extends React.Component {
     } else {
       return (
         <View style={{flex:1}}>
+          <View style={styles.userInfo}>
+            <View>
+              <Text style={styles.userInfoText}>
+                Your Shareable Party Code: {this.state.partycode}
+              </Text>
+            </View>
+          </View>
         <View style={styles.listcontainer}>
           <View style={{backgroundColor:"white"}}>
             <FlatList

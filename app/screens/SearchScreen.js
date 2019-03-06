@@ -3,7 +3,8 @@ import { ExpoConfigView } from '@expo/samples';
 import { Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList, AsyncStorage } from 'react-native';
 import axios from 'axios';
 const firebase = require('firebase');
-
+const database = firebase.database();
+// import {pcode} from '../screens/PartyScreen';
 export default class SearchScreen extends React.Component {
   static navigationOptions = {
     title: 'Add Songs',
@@ -71,6 +72,12 @@ export default class SearchScreen extends React.Component {
 
   sendSongToQueue = async (song) => {
     console.log(song, "\n", song.name, "\n", song.artist, "\n", song.uri);
+    const pcode = await AsyncStorage.getItem("pcode");
+    this.partiesRef = database.ref().child("parties/" +pcode).push({
+      title: song.name,
+      artist: song.artist,
+      uri: song.uri
+    });
   }
 
   render() {
