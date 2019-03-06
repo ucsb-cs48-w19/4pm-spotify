@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Image, ActivityIndicator, AsyncStorage, RefreshControl, ScrollView, FlatList, Refresh } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput, Image, ActivityIndicator, AsyncStorage, RefreshControl, ScrollView, FlatList, Refresh, Button } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 const firebase = require('firebase');
@@ -108,6 +108,14 @@ export default class PartyScreen extends React.Component {
     });
   }
 
+  setCode = async (codeResult) => {
+    if (codeResult.nativeEvent.text == "")
+      return;
+    console.log("codeResult.nativeEvent.text, ", codeResult.nativeEvent.text);
+    
+    await AsyncStorage.setItem('partyCode', `${codeResult.nativeEvent.text}`);
+  }
+
   handleRefresh = async () => {
     console.log("calling handleRefresh");
     this.setState({ 
@@ -140,15 +148,25 @@ export default class PartyScreen extends React.Component {
       return (
         <ScrollView>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.buttonHost}
             onPress={this.createParty.bind(this)}
           >
             <Text style={styles.buttonText}>
               Create a Party
             </Text>
           </TouchableOpacity>
+          <TextInput
+            placeholder="Party Code"
+            onSubmitEditing={this.setCode}
+            // value={this.state.partyCode}
+            // onFocus={this.showSearch}
+            returnKeyLabel="Done"
+            returnKeyType="done"
+            ref={input => { this.textInput = input }}
+            style={{ width: '60%', textAlign: 'center', padding: 10, marginTop: 90, backgroundColor: '#efefef', borderRadius:10, borderWidth: 1, borderColor: '#d5d5d5' }}
+          />
           <TouchableOpacity
-            style={styles.button}
+            style={styles.buttonJoin}
             onPress={this.joinParty}
           >
             <Text style={styles.buttonText}>
@@ -207,11 +225,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingTop: 15,
   },
-  button: {
+  buttonHost: {
     backgroundColor: '#2FD566',
     marginRight:40,
     marginLeft:40,
     marginTop:150,
+    paddingTop:20,
+    paddingBottom:20,
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff',
+    alignItems: 'center'
+  },
+  buttonJoin: {
+    backgroundColor: '#2FD566',
+    marginRight:40,
+    marginLeft:40,
+    marginTop:10,
     paddingTop:20,
     paddingBottom:20,
     borderRadius:10,
