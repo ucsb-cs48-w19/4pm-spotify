@@ -1,5 +1,9 @@
 # Spartify
 
+<a href="https://travis-ci.org/ucsb-cs48-w19/4pm-spotify">
+<img src="https://travis-ci.org/ucsb-cs48-w19/4pm-spotify.svg?branch=master" alt="Build Status">
+</a>
+
 ## Project summary
 
 ### One-sentence description of the project
