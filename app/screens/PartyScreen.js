@@ -176,16 +176,6 @@ export default class PartyScreen extends React.Component {
     this.getPartySongs();
   };
 
-  //  OUR OLD PLAY CALL, this call should be used if you are host of playlist, not otherwise:
-  // renderItem={({item}) => {
-  //     return(
-  //       <TouchableHighlight onPress={() => this.getDevice(item.key)}>
-  //            <Text style={styles.item}>{item.name}</Text>
-  //       </TouchableHighlight>
-  //     )
-  //   }
-  // }
-
   render() {
     if (this.state.refreshing) {
       return (
