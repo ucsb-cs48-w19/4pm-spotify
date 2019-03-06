@@ -188,6 +188,7 @@ export default class PartyScreen extends React.Component {
     if (!this.state.isHost && !this.state.isJoined) {
       return (
         <ScrollView>
+        <View style={styles.container}>
           <TouchableOpacity
             style={styles.buttonHost}
             onPress={this.createParty.bind(this)}
@@ -214,6 +215,7 @@ export default class PartyScreen extends React.Component {
               Join a Party
             </Text>
           </TouchableOpacity>
+        </View>
         </ScrollView>
       );
     } else {
