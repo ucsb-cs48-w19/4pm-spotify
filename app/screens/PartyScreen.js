@@ -19,9 +19,50 @@ export default class PartyScreen extends React.Component {
     super(props);
   }
 
-  static navigationOptions = {
-    title: 'Your Party',
-  };
+  static navigationOptions = ({navigation}) => {
+    const params = navigation.state.params || {};
+
+    return {
+      title:       params.title,
+      headerRight: params.headerRight,
+    }
+  }
+
+  _setDefaultNavigationParams() {
+    let title       = 'Join Party';
+    let headerRight = null;
+
+    this.props.navigation.setParams({ 
+      title,
+      headerRight, 
+    });
+  }
+
+  _setPartyNavigationParams() {
+    let title       = 'Active Party';
+    let headerRight = (
+      <Button
+        onPress={this._leaveParty.bind(this)}
+        title="Leave"
+      />
+    )
+
+    this.props.navigation.setParams({ 
+      title,
+      headerRight, 
+    });
+  }
+
+  componentWillMount() {
+    this._setDefaultNavigationParams();
+  }
+
+  _leaveParty() {
+    console.log('Leaving current party');
+    this.setState({ isJoined: false });
+    this.setState({ isHost: false });
+    this._setDefaultNavigationParams();
+  }
 
   state = {
     isHost: false,
@@ -92,11 +133,21 @@ export default class PartyScreen extends React.Component {
     let partyname = "default";
     this.partiesRef = rootref.getRef().child('parties');
     this.partiesRef.push({code: partycode, name: partyname});
-    this.setState({ isHost: true });
+    // this.setState({ isHost: true });
+    this.setState({ isHost: true }, () => { this._setPartyNavigationParams(); });
   };
 
   joinParty = () => {
-    this.setState({ isJoined: true });
+    AsyncStorage.getItem("partyCode").then((partyCode) => {
+      if (partyCode == null)
+        return;
+
+      console.log("partyCode: ", partyCode);
+    })
+    .then(res => {
+      this.setState({ isJoined: true });
+      this._setPartyNavigationParams();
+    });
   };
 
   getPartySongs = async () => {
