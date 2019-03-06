@@ -101,6 +101,7 @@ export default class SearchScreen extends React.Component {
               return(
                 <TouchableOpacity onPress={() => this.sendSongToQueue(item)}>
                   <Text style={styles.item}>{item.name}</Text>
+                  <Text style={styles.itemartist}>{item.artist}</Text>
                 </TouchableOpacity>
               )
             }}
@@ -130,10 +131,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   item: {
-    padding: 10,
+    paddingTop: 10,
+    paddingLeft: 15,
     fontSize: 15,
-    height: 44,
+    // height: 30,
     // color: '#1DB954',
+  },
+  itemartist: {
+    paddingBottom: 10,
+    paddingLeft: 15,
+    fontSize: 10,
+    // height: 20,
   },
 });
 
