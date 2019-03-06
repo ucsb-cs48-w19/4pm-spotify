@@ -68,6 +68,7 @@ export default class PartyScreen extends React.Component {
     isHost: false,
     isJoined: false,
     refreshing: false,
+    nullInputCode: true,
 
     devices: [],
     // USING SAMPLE DATA, must pull from DB:
@@ -137,12 +138,13 @@ export default class PartyScreen extends React.Component {
     this.setState({ isHost: true }, () => { this._setPartyNavigationParams(); });
   };
 
-  joinParty = () => {
+  joinParty = async () => {
+    if (this.state.nullInputCode) {
+      return;
+    }
     AsyncStorage.getItem("partyCode").then((partyCode) => {
-      if (partyCode == null)
-        return;
-
-      console.log("partyCode: ", partyCode);
+      this.state.nullInputCode = true;
+      // console.log("partyCode: ", partyCode);
     })
     .then(res => {
       this.setState({ isJoined: true });
@@ -162,8 +164,8 @@ export default class PartyScreen extends React.Component {
   setCode = async (codeResult) => {
     if (codeResult.nativeEvent.text == "")
       return;
-    console.log("codeResult.nativeEvent.text, ", codeResult.nativeEvent.text);
-    
+    // console.log("codeResult.nativeEvent.text, ", codeResult.nativeEvent.text);
+    this.state.nullInputCode = false;
     await AsyncStorage.setItem('partyCode', `${codeResult.nativeEvent.text}`);
   }
 
