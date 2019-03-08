@@ -1,5 +1,9 @@
 # Spartify
 
+<a href="https://travis-ci.org/ucsb-cs48-w19/4pm-spotify">
+<img src="https://travis-ci.org/ucsb-cs48-w19/4pm-spotify.svg?branch=master" alt="Build Status">
+</a>
+
 ## Project summary
 
 ### One-sentence description of the project
@@ -68,9 +72,6 @@ Provide steps to reproduce the problem and/or name a file or a function where th
 
 
 ## Contributing
-
-TODO: Leave the steps below if you want others to contribute to your project.
-
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
