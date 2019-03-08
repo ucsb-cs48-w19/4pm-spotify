@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, TextInput, Image, ActivityIndicator, AsyncStorage, RefreshControl, ScrollView, FlatList, Refresh, Button } from 'react-native';
+import Swipeout from 'react-native-swipeout';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 const firebase = require('firebase');
@@ -92,6 +93,7 @@ export default class PartyScreen extends React.Component {
           if (this.state.devices[0]) {
             console.log(this.state.devices[0].id);
             this.playSong(this.state.devices[0].id, uri);
+
           } else
             this.playSong("", uri);
         })
@@ -127,6 +129,30 @@ export default class PartyScreen extends React.Component {
     };
   }
 
+  // removeSongFromQueue = async (song) => {
+  //   console.log(song, "\n", song.name, "\n", song.artist, "\n", song.uri);
+  //   console.log("removing song ...");
+  //   const pcode = await AsyncStorage.getItem("pcode");
+  //   database.ref('/parties/' + pcode).once('value', function(snapshot){
+  //      //snapshot is the whole list of songs
+  //     let data = snapshot.val(); //aray of snapshot
+  //     let items = Object.values(data); 
+  //     console.log('data', data);
+  //     console.log('items',items)
+  //     for(let i =0; i<items.length; i++){
+  //       let item = Object.values(items[i]); //each song
+  //       if(item[2] == song.uri){
+  //         console.log('remove this uri', item[1]);
+  //         console.log(item[2].parent.name());
+  //       }
+
+  //     }
+      
+  //   });
+
+  // }
+
+
   createParty = async () => {
     var pcode = Math.random().toString(36).substring(7);
     await AsyncStorage.setItem('pcode', pcode);
@@ -150,7 +176,6 @@ export default class PartyScreen extends React.Component {
 
     var join;
     database.ref('/parties/' + partyCode).once('value', function(snapshot){
-        console.log("snapshot",snapshot.val()); 
         if(snapshot.val() == null){
           console.log("this sucks");
           join = false;
@@ -162,8 +187,10 @@ export default class PartyScreen extends React.Component {
         this.setState({ isJoined: join });
         console.log(this.state.isJoined);
     }.bind(this));
-    this._setPartyNavigationParams();
-    this.getPartySongs();
+    if(this.state.isJoined){
+      this._setPartyNavigationParams();
+      this.getPartySongs();
+    }
   };
 
   getPartySongs = async () => {
@@ -207,6 +234,14 @@ export default class PartyScreen extends React.Component {
     this.getPartySongs();
   };
 
+  pressQueueSong = async (song) => {
+    if(this.state.isHost){
+      this.getDevice(song.uri); //play song
+      // this.removeSongFromQueue(song); 
+      // console.log("song pressed");
+    }
+
+  }
   render() {
     if (this.state.refreshing) {
       return (
@@ -216,6 +251,7 @@ export default class PartyScreen extends React.Component {
         </View>
       );
     }
+
     if (!this.state.isHost && !this.state.isJoined) {
       return (
         <ScrollView>
@@ -259,32 +295,32 @@ export default class PartyScreen extends React.Component {
               </Text>
             </View>
           </View>
-        <View style={styles.listcontainer}>
-          <View style={{backgroundColor:"white"}}>
-            <FlatList
-              style={{height: '100%'}}
-              data={this.state.queueSongs}
-              extraData={this.state.queueSongs}
-              keyExtractor={ (item, index) => index.toString() }
-              renderItem={({item, index}) => {
-                return(
-                  <TouchableOpacity onPress={() => this.state.isHost ? this.getDevice(item.uri) : null}>
-                    <Text style={styles.item}>{item.name}</Text>
-                    <Text style={styles.itemartist}>{item.artist}</Text>
-                  </TouchableOpacity>
-                )
-              }}
-              renderSeparator={() => <View style={styles.separator} />}
-              refreshControl = {
-                <RefreshControl
-                  //refresh control used for the Pull to Refresh
-                  refreshing={this.state.refreshing}
-                  onRefresh={this.handleRefresh}
-                />
-              }
-            />
+          <View style={styles.listcontainer}>
+            <View style={{backgroundColor:"white"}}>
+              <FlatList
+                style={{height: '100%'}}
+                data={this.state.queueSongs}
+                extraData={this.state.queueSongs}
+                keyExtractor={ (item, index) => index.toString() }
+                renderItem={({item, index}) => {
+                  return(
+                    <TouchableOpacity onPress={() => this.pressQueueSong(item)}>
+                      <Text style={styles.item}>{item.name}</Text>
+                      <Text style={styles.itemartist}>{item.artist}</Text>
+                    </TouchableOpacity>
+                  )
+                }}
+                renderSeparator={() => <View style={styles.separator} />}
+                refreshControl = {
+                  <RefreshControl
+                    //refresh control used for the Pull to Refresh
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.handleRefresh}
+                  />
+                }
+              />
+            </View>
           </View>
-        </View>
         </View>
       );
     }

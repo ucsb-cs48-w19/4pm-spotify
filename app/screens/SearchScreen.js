@@ -36,7 +36,7 @@ export default class SearchScreen extends React.Component {
           .then(response => {
             this.state.searchData = [];
             for(i = 0; i < response.data.tracks.items.length; i++) {
-              this.state.searchData.push( { "name": response.data.tracks.items[i].name, "artist": response.data.tracks.items[i].artists[0].name, "uri": response.data.tracks.items[i].uri } );
+              this.state.searchData.push( { "name": response.data.tracks.items[i].name, "artist": response.data.tracks.items[i].artists[0].name, "uri": response.data.tracks.items[i].uri, "key": null} );
             }
             // https://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate
             // https://reactjs.org/docs/react-component.html#forceupdate
@@ -73,11 +73,15 @@ export default class SearchScreen extends React.Component {
   sendSongToQueue = async (song) => {
     console.log(song, "\n", song.name, "\n", song.artist, "\n", song.uri);
     const pcode = await AsyncStorage.getItem("pcode");
-    this.partiesRef = database.ref().child("parties/" +pcode).push({
+
+    var partiesRef = database.ref().child("parties/" +pcode).push().key;
+    console.log(partiesRef);
+    database.ref().child("parties/" +pcode).push({
       title: song.name,
       artist: song.artist,
       uri: song.uri
     });
+
   }
 
   render() {
