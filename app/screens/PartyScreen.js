@@ -72,7 +72,7 @@ export default class PartyScreen extends React.Component {
     isJoined: false,
     refreshing: false,
     nullInputCode: true,
-    partycode: 0,
+    
 
     devices: [],
     // USING SAMPLE DATA, must pull from DB:
@@ -89,9 +89,7 @@ export default class PartyScreen extends React.Component {
         await axios.get(`https://api.spotify.com/v1/me/player/devices`, { headers: { authorization: value } })
         .then(response => {
           this.setState({ devices: response.data.devices });
-          console.log(response.data.devices);
           if (this.state.devices[0]) {
-            console.log(this.state.devices[0].id);
             this.playSong(this.state.devices[0].id, uri);
 
           } else
@@ -107,8 +105,6 @@ export default class PartyScreen extends React.Component {
     try {
       const value = await AsyncStorage.getItem('Authorization');
       if (value !== null) {
-        console.log("AUTH DATA: ", value);
-
         fetch("https://api.spotify.com/v1/me/player/play", {
           method: 'PUT',
           // data: { uris: ["spotify:track:7lEptt4wbM0yJTvSG5EBof"] },
@@ -129,28 +125,19 @@ export default class PartyScreen extends React.Component {
     };
   }
 
-  // removeSongFromQueue = async (song) => {
-  //   console.log(song, "\n", song.name, "\n", song.artist, "\n", song.uri);
-  //   console.log("removing song ...");
-  //   const pcode = await AsyncStorage.getItem("pcode");
-  //   database.ref('/parties/' + pcode).once('value', function(snapshot){
-  //      //snapshot is the whole list of songs
-  //     let data = snapshot.val(); //aray of snapshot
-  //     let items = Object.values(data); 
-  //     console.log('data', data);
-  //     console.log('items',items)
-  //     for(let i =0; i<items.length; i++){
-  //       let item = Object.values(items[i]); //each song
-  //       if(item[2] == song.uri){
-  //         console.log('remove this uri', item[1]);
-  //         console.log(item[2].parent.name());
-  //       }
-
-  //     }
-      
-  //   });
-
-  // }
+  removeSongFromQueue = async (song) => {
+    console.log("Removing: ",song);
+    const pcode = await AsyncStorage.getItem("pcode");
+    database.ref('/parties/' + pcode).once('value', function(snapshot){
+      snapshot.forEach(function(childSnapshot){
+        var value = childSnapshot.val();
+        if(value.uri == song.uri){
+          var parentKey = childSnapshot.ref.key;
+          database.ref('parties/' + pcode).child(parentKey).remove();
+        }
+      })
+    });
+  }
 
 
   createParty = async () => {
@@ -167,6 +154,7 @@ export default class PartyScreen extends React.Component {
   };
 
   joinParty = async () => {
+    console.log("Joining Party...");
     if (this.state.nullInputCode) {
       return;
     }
@@ -176,16 +164,11 @@ export default class PartyScreen extends React.Component {
 
     var join;
     database.ref('/parties/' + partyCode).once('value', function(snapshot){
-        if(snapshot.val() == null){
-          console.log("this sucks");
+        if(snapshot.val() == null)
           join = false;
-          // this.state.isJoined = false;
-        }
-        else{
+        else
           join = true;
-        }
         this.setState({ isJoined: join });
-        console.log(this.state.isJoined);
     }.bind(this));
     if(this.state.isJoined){
       this._setPartyNavigationParams();
@@ -237,10 +220,9 @@ export default class PartyScreen extends React.Component {
   pressQueueSong = async (song) => {
     if(this.state.isHost){
       this.getDevice(song.uri); //play song
-      // this.removeSongFromQueue(song); 
-      // console.log("song pressed");
+      this.removeSongFromQueue(song); 
+      this.handleRefresh();
     }
-
   }
   render() {
     if (this.state.refreshing) {
@@ -290,7 +272,7 @@ export default class PartyScreen extends React.Component {
         <View style={{flex:1}}>
           <View style={styles.userInfo}>
             <View>
-              <Text style={styles.userInfoText}>
+              <Text style={{textAlign: 'center', paddingTop: 10, fontSize: 15}}>
                 Your Shareable Party Code: {this.state.partycode}
               </Text>
             </View>
@@ -346,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2FD566',
     marginRight:40,
     marginLeft:40,
-    marginTop:150,
+    marginTop:80,
     paddingTop:20,
     paddingBottom:20,
     borderRadius:10,

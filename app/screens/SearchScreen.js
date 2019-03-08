@@ -73,13 +73,11 @@ export default class SearchScreen extends React.Component {
   sendSongToQueue = async (song) => {
     console.log(song, "\n", song.name, "\n", song.artist, "\n", song.uri);
     const pcode = await AsyncStorage.getItem("pcode");
-
-    var partiesRef = database.ref().child("parties/" +pcode).push().key;
-    console.log(partiesRef);
+    var songRef = database.ref().child("parties/" +pcode).push().key;
     database.ref().child("parties/" +pcode).push({
       title: song.name,
       artist: song.artist,
-      uri: song.uri
+      uri: song.uri,
     });
 
   }
