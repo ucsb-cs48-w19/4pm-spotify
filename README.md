@@ -43,7 +43,7 @@ In the app directory, run the following commands to being development and runnin
 
 expo start
 
-## How to Use MVP
+## How to Run the App
 
 1) Download the Expo Client app on your smartphone if you don't have an ios simulator on your device
 2) Clone this repo to your device
