@@ -73,8 +73,10 @@ export default class SearchScreen extends React.Component {
   sendSongToQueue = async (song) => {
     console.log("Sending song: ",song);
     var isJoined = await AsyncStorage.getItem("isJoined");
-    if (joined = 0)
-      var joined = false;
+    console.log("isJoined", isJoined);
+    if (isJoined == '0'){
+      console.log("ppoo");
+      var joined = false; }
     else
       var joined = true;
     console.log("isJoined", isJoined);

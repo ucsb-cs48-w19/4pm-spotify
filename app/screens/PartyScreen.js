@@ -238,8 +238,9 @@ export default class PartyScreen extends React.Component {
 
       
  }
-    else if(this.state.isHost)
+    else if(this.state.isHost){
       var pcode = await AsyncStorage.getItem("pcode");
+      await AsyncStorage.setItem('isJoined', '0'); }
 
     database.ref('/parties/' + pcode).once('value', function(snapshot){
       let data = snapshot.val();
