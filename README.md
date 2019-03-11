@@ -12,8 +12,7 @@ A Shared Spotify Queue for Music Collaboration
 
 ### Additional information about the project
 
-Tired of listeing to some frat bro play Mo Bamba at parties and ignoring your requests? Want to listen to some of your music? Well now you can! With the Spartify app, everyone is on aux. Add songs to a party queue and listen to what you want to hear.
-
+Tired of walking up and yelling at the DJ to queue a song? With shared party queues from Spartify, everybody is on AUX at our parties!
 
 ## Installation
 
@@ -24,6 +23,8 @@ React-Native,
 Expo
 Spotify Premium Account
 iOS Device
+
+All packages can be installed with homebrew.
 
 ### Gems
 
@@ -70,7 +71,6 @@ Sign in to Spotify. Then create hosted queue, share your collaboration code with
 TODO: Describe any known issues, bugs, odd behaviors or code smells. 
 Provide steps to reproduce the problem and/or name a file or a function where the problem lives.
 
-
 ## Contributing
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
@@ -78,10 +78,8 @@ Provide steps to reproduce the problem and/or name a file or a function where th
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-#Unit Testing
-site: https://travis-ci.org/ucsb-cs48-w19/4pm-spotify
-
+# Unit Testing
+Continuous Integration: https://travis-ci.org/ucsb-cs48-w19/4pm-spotify
 
 ## License
-
 MIT license: <https://choosealicense.com/licenses/mit/>
