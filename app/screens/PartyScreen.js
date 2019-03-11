@@ -4,8 +4,6 @@ import Swipeout from 'react-native-swipeout';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 const firebase = require('firebase');
-const pcode = Math.random().toString(36).substring(7);
-export{pcode};
 const firebaseConfig = {
     apiKey: "AIzaSyDEy5DxvDRX5vM6t1S_QfKLVFa74asLPq8",
     authDomain: "spartify-queue.firebaseapp.com",
@@ -214,9 +212,12 @@ export default class PartyScreen extends React.Component {
           join = false;
         else
           join = true;
+
         this.setState({ isJoined: join });
     }.bind(this));
+
     if(this.state.isJoined){
+      console.log("yay");
       this._setPartyNavigationParams();
       this.getPartySongs();
     }
@@ -225,8 +226,18 @@ export default class PartyScreen extends React.Component {
   getPartySongs = async () => {
     console.log("retrieving songs...");
     var songs = []; // GET SONGS HERE
-    if(this.state.isJoined)
+    if(this.state.isJoined){
+      console.log("yay");
+      var isJoined = this.state.isJoined;
+      if(isJoined)
+        await AsyncStorage.setItem('isJoined', '1');
+      else
+        await AsyncStorage.setItem('isJoined', '0');
+      this._setPartyNavigationParams();
       var pcode = await AsyncStorage.getItem("partyCode");
+
+      
+ }
     else if(this.state.isHost)
       var pcode = await AsyncStorage.getItem("pcode");
 
