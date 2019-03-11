@@ -72,6 +72,7 @@ export default class PartyScreen extends React.Component {
     isJoined: false,
     refreshing: false,
     nullInputCode: true,
+    playing: false,
     
 
     devices: [],
@@ -124,6 +125,51 @@ export default class PartyScreen extends React.Component {
       console.log("Error retrieving data: ", error);
     };
   }
+
+  // getPlayback = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('Authorization');
+  //     if (value !== null) {
+  //       await axios.get(`https://api.spotify.com/v1/me/player/`, { headers: { authorization: value } })
+  //       .then(response => {
+  //         console.log(response)
+  //         this.setState({ playing: response.data.is_playing });
+  //         if (this.state.playing]) {
+  //           console.log("song is playing");
+
+  //         } else
+  //           console.log("no song playing");
+  //       })
+  //     }
+  //   } catch (error) {
+  //     console.log("Error retrieving data: ", error);
+  //   };
+  // }
+
+
+  handleSpotifyLogin = async () => {
+    let redirectUrl = AuthSession.getRedirectUrl();
+    var scope = 'playlist-read-private user-modify-playback-state user-read-recently-played user-read-currently-playing app-remote-control user-read-playback-state streaming user-library-read user-read-email';
+    let results = await AuthSession.startAsync({
+      authUrl: `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUrl)}&scope=${encodeURIComponent(scope)}&response_type=token`
+    });
+    if (results.type !== 'success') {
+      console.log(results.type);
+      this.setState({ didError: true });
+    } else {
+      const userInfo = await axios.get(`https://api.spotify.com/v1/me`, {
+        headers: {
+          "Authorization": `Bearer ${results.params.access_token}`
+        }
+      });
+      try {
+        await AsyncStorage.setItem('Authorization', `Bearer ${results.params.access_token}`);
+      } catch (error) {
+        // Error saving data
+      }
+      this.setState({ userInfo: userInfo.data });
+    }
+  };
 
   removeSongFromQueue = async (song) => {
     console.log("Removing: ",song);
@@ -225,14 +271,6 @@ export default class PartyScreen extends React.Component {
     }
   }
   render() {
-    if (this.state.refreshing) {
-      return (
-        //loading view while data is loading
-        <View style={{ flex: 1, paddingTop: 20 }}>
-          <ActivityIndicator />
-        </View>
-      );
-    }
 
     if (!this.state.isHost && !this.state.isJoined) {
       return (
