@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+
 import { TouchableOpacity, StyleSheet, Text, View, TextInput, Image, ActivityIndicator, AsyncStorage, RefreshControl, ScrollView, FlatList, Refresh, Button } from 'react-native';
-import Swipeout from 'react-native-swipeout';
+
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios';
 const firebase = require('firebase');
@@ -225,6 +226,7 @@ export default class PartyScreen extends React.Component {
 
   getPartySongs = async () => {
     console.log("retrieving songs...");
+
     var songs = []; // GET SONGS HERE
     if(this.state.isJoined){
       console.log("yay");
@@ -252,11 +254,13 @@ export default class PartyScreen extends React.Component {
         }
       }
     });
+
     this.setState({ 
       refreshing: false, 
       queueSongs: songs 
     });
   }
+
 
   setCode = async (codeResult) => {
     if (codeResult.nativeEvent.text == "")
@@ -268,6 +272,7 @@ export default class PartyScreen extends React.Component {
 
   handleRefresh = async () => {
     console.log("calling handleRefresh");
+
     this.setState({ 
       queueSongs:[], 
       refreshing: true 
@@ -320,6 +325,7 @@ export default class PartyScreen extends React.Component {
     } else {
       return (
         <View style={{flex:1}}>
+
           <View style={styles.userInfo}>
             <View>
               <Text style={{textAlign: 'center', paddingTop: 10, fontSize: 15}}>
